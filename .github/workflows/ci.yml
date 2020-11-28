@@ -9,7 +9,6 @@ jobs:
         php-version:
           - '7.4'
           - '8.0'
-          - '8.1'
 
     name: CI workflow on PHP ${{ matrix.php-version }}
     steps:
@@ -19,6 +18,12 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
+
+      - name: Debug PHP installation
+        run: |
+          composer --version
+          php --version
+          php --modules
 
       - name: Validate composer files
         run: composer validate --strict
