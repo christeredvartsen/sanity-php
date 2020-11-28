@@ -3,5 +3,5 @@ namespace Sanity;
 
 class Version
 {
-    const VERSION = '1.0.3';
+    const VERSION = '2.0.0';
 }
