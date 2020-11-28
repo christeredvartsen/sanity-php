@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Sanity;
 
 use Sanity\BlockContent\HtmlBuilder;
