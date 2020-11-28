@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 return (new PhpCsFixer\Config('Sanity'))
+    ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
         'return_type_declaration' => [
@@ -19,6 +20,7 @@ return (new PhpCsFixer\Config('Sanity'))
             'import_constants' => true,
             'import_functions' => true,
         ],
+        'declare_strict_types' => true,
     ])
     ->setFinder((new Symfony\Component\Finder\Finder())
         ->files()
