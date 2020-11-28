@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 namespace Sanity;
 
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Handler\MockHandler,
+    GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use Sanity\Exception\ClientException;
