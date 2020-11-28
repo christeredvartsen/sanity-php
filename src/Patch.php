@@ -2,8 +2,8 @@
 namespace Sanity;
 
 use JsonSerializable;
-use Sanity\Util\DocumentPropertyAsserter;
 use Sanity\Exception\InvalidArgumentException;
+use Sanity\Util\DocumentPropertyAsserter;
 
 class Patch implements JsonSerializable
 {

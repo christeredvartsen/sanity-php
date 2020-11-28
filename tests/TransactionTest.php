@@ -1,10 +1,8 @@
 <?php
 namespace Sanity;
 
-use Sanity\Exception\{
-    ConfigException,
-    InvalidArgumentException,
-};
+use Sanity\Exception\ConfigException;
+use Sanity\Exception\InvalidArgumentException;
 
 class TransactionTest extends TestCase
 {

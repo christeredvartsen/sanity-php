@@ -3,7 +3,8 @@ namespace Sanity;
 
 class BlockContentMigrationTest extends TestCase
 {
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
         BlockContent::$useStaticKeys = true;
     }
 

@@ -1,18 +1,14 @@
 <?php
 namespace Sanity;
 
-use GuzzleHttp\{
-    Handler\MockHandler,
-    HandlerStack,
-    Middleware,
-    Psr7\Response,
-};
-use Sanity\Exception\{
-    ClientException,
-    ConfigException,
-    InvalidArgumentException,
-    ServerException,
-};
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Response;
+use Sanity\Exception\ClientException;
+use Sanity\Exception\ConfigException;
+use Sanity\Exception\InvalidArgumentException;
+use Sanity\Exception\ServerException;
 
 class ClientTest extends TestCase
 {

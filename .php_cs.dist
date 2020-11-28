@@ -1,0 +1,28 @@
+<?php declare(strict_types=1);
+return (new PhpCsFixer\Config('Sanity'))
+    ->setRules([
+        '@PSR2' => true,
+        'return_type_declaration' => [
+            'space_before' => 'none',
+        ],
+        'no_unused_imports' => true,
+        'ordered_imports' => [
+            'sort_algorithm' => 'alpha',
+            'imports_order' => [
+                'const',
+                'class',
+                'function',
+            ],
+        ],
+        'global_namespace_import' => [
+            'import_classes' => true,
+            'import_constants' => true,
+            'import_functions' => true,
+        ],
+    ])
+    ->setFinder((new Symfony\Component\Finder\Finder())
+        ->files()
+        ->in(__DIR__)
+        ->name('*.php')
+        ->exclude('vendor')
+    );

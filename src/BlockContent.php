@@ -1,9 +1,9 @@
 <?php
 namespace Sanity;
 
-use Sanity\Exception\InvalidArgumentException;
-use Sanity\BlockContent\TreeBuilder;
 use Sanity\BlockContent\HtmlBuilder;
+use Sanity\BlockContent\TreeBuilder;
+use Sanity\Exception\InvalidArgumentException;
 
 class BlockContent
 {
@@ -48,12 +48,8 @@ class BlockContent
 
         $options = array_merge($defaults, $options);
         $keyGenerator = self::$useStaticKeys
-            ? function ($item) {
-                return substr(md5(serialize($item)), 0, 7);
-            }
-            : function () {
-                return uniqid();
-            };
+            ? fn ($item) => substr(md5(serialize($item)), 0, 7)
+            : fn () => uniqid();
 
         if ($options['version'] != 2) {
             throw new InvalidArgumentException('Unsupported version');
