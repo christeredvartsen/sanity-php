@@ -1,18 +1,18 @@
 <?php
-namespace SanityTest;
+namespace Sanity;
 
-use DateInterval;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Psr7\Response;
-
-use Sanity\Client;
-use Sanity\Patch;
-use Sanity\Transaction;
-use Sanity\Selection;
-use Sanity\Version;
-use Sanity\Exception\ServerException;
+use GuzzleHttp\{
+    Handler\MockHandler,
+    HandlerStack,
+    Middleware,
+    Psr7\Response,
+};
+use Sanity\Exception\{
+    ClientException,
+    ConfigException,
+    InvalidArgumentException,
+    ServerException,
+};
 
 class ClientTest extends TestCase
 {
@@ -20,10 +20,7 @@ class ClientTest extends TestCase
     private $errors;
     private $history;
 
-    /**
-     * @before
-     */
-    public function setup()
+    protected function setUp(): void
     {
         $this->client = null;
         $this->errors = [];
@@ -69,12 +66,10 @@ class ClientTest extends TestCase
         $this->assertErrorTriggered('Some error', E_USER_WARNING);
     }
 
-    /**
-     * @expectedException Sanity\Exception\ConfigException
-     * @expectedExceptionMessage Invalid ISO-date
-     */
     public function testThrowsOnInvalidDate()
     {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('Invalid ISO-date');
         $this->client = new Client([
             'projectId' => 'abc',
             'dataset' => 'production',
@@ -82,12 +77,10 @@ class ClientTest extends TestCase
         ]);
     }
 
-    /**
-     * @expectedException Sanity\Exception\ConfigException
-     * @expectedExceptionMessage Invalid API version
-     */
     public function testThrowsOnInvalidApiVersion()
     {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('Invalid API version');
         $this->client = new Client([
             'projectId' => 'abc',
             'dataset' => 'production',
@@ -95,6 +88,9 @@ class ClientTest extends TestCase
         ]);
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testDoesNotThrowOnExperimentalApiVersion()
     {
         $this->client = new Client([
@@ -104,6 +100,9 @@ class ClientTest extends TestCase
         ]);
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testDoesNotThrowOnApiVersionOne()
     {
         $this->client = new Client([
@@ -113,12 +112,12 @@ class ClientTest extends TestCase
         ]);
     }
 
-    /**
-     * @expectedException Sanity\Exception\ConfigException
-     * @expectedExceptionMessage Cannot combine `useCdn` option with `token` as authenticated requests cannot be cached
-     */
     public function testThrowsWhenConstructingNewClientWithTokenAndCdnOption()
     {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage(
+            'Cannot combine `useCdn` option with `token` as authenticated requests cannot be cached'
+        );
         $this->client = new Client([
             'projectId' => 'abc',
             'dataset' => 'production',
@@ -128,24 +127,20 @@ class ClientTest extends TestCase
         ]);
     }
 
-    /**
-     * @expectedException Sanity\Exception\ConfigException
-     * @expectedExceptionMessage Configuration must contain `projectId`
-     */
     public function testThrowsWhenConstructingClientWithoutProjectId()
     {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('Configuration must contain `projectId`');
         $this->client = new Client([
             'dataset' => 'production',
             'apiVersion' => '2019-01-01',
         ]);
     }
 
-    /**
-     * @expectedException Sanity\Exception\ConfigException
-     * @expectedExceptionMessage Configuration must contain `dataset`
-     */
     public function testThrowsWhenConstructingClientWithoutDataset()
     {
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessage('Configuration must contain `dataset`');
         $this->client = new Client(['projectId' => 'abc', 'apiVersion' => '2019-01-01']);
     }
 
@@ -214,14 +209,12 @@ class ClientTest extends TestCase
         $this->assertPreviousRequest(['headers' => ['User-Agent' => 'sanity-php ' . Version::VERSION]]);
     }
 
-    /**
-     * @expectedException Sanity\Exception\ServerException
-     * @expectedExceptionMessage SomeError - Server returned some error
-     */
     public function testThrowsServerExceptionOn5xxErrors()
     {
         $mockBody = ['error' => 'SomeError', 'message' => 'Server returned some error'];
         $this->mockResponses([$this->mockJsonResponseBody($mockBody, 500)]);
+        $this->expectException(ServerException::class);
+        $this->expectExceptionMessage('SomeError - Server returned some error');
         $this->client->getDocument('someDocId');
     }
 
@@ -299,10 +292,6 @@ class ClientTest extends TestCase
         ]);
     }
 
-    /**
-     * @expectedException Sanity\Exception\ClientException
-     * @expectedExceptionMessage Param $minSeats referenced, but not provided
-     */
     public function testThrowsClientExceptionOn4xxErrors()
     {
         $mockBody = ['error' => [
@@ -310,6 +299,8 @@ class ClientTest extends TestCase
             'type' => 'queryParseError'
         ]];
         $this->mockResponses([$this->mockJsonResponseBody($mockBody, 400)]);
+        $this->expectException(ClientException::class);
+        $this->expectExceptionMessage('Param $minSeats referenced, but not provided');
         $this->client->fetch('*[seats >= $minSeats]');
     }
 
@@ -342,13 +333,11 @@ class ClientTest extends TestCase
         ]);
     }
 
-    /**
-     * @expectedException Sanity\Exception\InvalidArgumentException
-     * @expectedExceptionMessage _type
-     */
     public function testThrowsWhenCreatingDocumentWithoutType()
     {
         $this->mockResponses([]);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/properties are missing: _type$/');
         $this->client->create(['foo' => 'bar']);
     }
 
@@ -434,13 +423,11 @@ class ClientTest extends TestCase
         ]);
     }
 
-    /**
-     * @expectedException Sanity\Exception\InvalidArgumentException
-     * @expectedExceptionMessage _id
-     */
     public function testThrowsWhenCallingCreateIfNotExistsWithoutId()
     {
         $this->mockResponses([]);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/properties are missing: _id$/');
         $this->client->createIfNotExists(['_type' => 'bike']);
     }
 
@@ -458,13 +445,11 @@ class ClientTest extends TestCase
         ]);
     }
 
-    /**
-     * @expectedException Sanity\Exception\InvalidArgumentException
-     * @expectedExceptionMessage _id
-     */
     public function testThrowsWhenCallingCreateOrReplaceWithoutId()
     {
         $this->mockResponses([]);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/properties are missing: _id$/');
         $this->client->createOrReplace(['_type' => 'bike']);
     }
 
@@ -591,36 +576,30 @@ class ClientTest extends TestCase
         ]);
     }
 
-    /**
-     * @expectedException Sanity\Exception\ServerException
-     * @expectedExceptionMessage Some error message
-     */
     public function testResolvesErrorMessageFromNonStandardResponseWithOnlyError()
     {
         $mockBody = ['error' => 'Some error message'];
         $this->mockResponses([$this->mockJsonResponseBody($mockBody, 500)]);
+        $this->expectException(ServerException::class);
+        $this->expectExceptionMessage('Some error message');
         $this->client->getDocument('someDocId');
     }
 
-    /**
-     * @expectedException Sanity\Exception\ServerException
-     * @expectedExceptionMessage Some error message
-     */
     public function testResolvesErrorMessageFromNonStandardResponseWithOnlyMessage()
     {
         $mockBody = ['message' => 'Some error message'];
         $this->mockResponses([$this->mockJsonResponseBody($mockBody, 500)]);
+        $this->expectException(ServerException::class);
+        $this->expectExceptionMessage('Some error message');
         $this->client->getDocument('someDocId');
     }
 
-    /**
-     * @expectedException Sanity\Exception\ServerException
-     * @expectedExceptionMessage Unknown error; body: {"some":"thing"}
-     */
     public function testResolvesErrorMessageFromNonStandardResponse()
     {
         $mockBody = ['some' => 'thing'];
         $this->mockResponses([$this->mockJsonResponseBody($mockBody, 500)]);
+        $this->expectException(ServerException::class);
+        $this->expectExceptionMessage('Unknown error; body: {"some":"thing"}');
         $this->client->getDocument('someDocId');
     }
 
@@ -637,12 +616,10 @@ class ClientTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException Sanity\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Invalid selection
-     */
     public function testThrowsOnInvalidSelections()
     {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/^Invalid selection/');
         new Selection(['foo' => 'bar']);
     }
 

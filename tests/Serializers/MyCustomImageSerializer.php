@@ -1,5 +1,5 @@
 <?php
-namespace SanityTest\Serializers;
+namespace Sanity\Serializers;
 
 use Sanity\BlockContent\Serializers\DefaultImage;
 

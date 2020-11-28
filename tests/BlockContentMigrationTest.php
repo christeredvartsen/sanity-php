@@ -1,11 +1,9 @@
 <?php
-namespace SanityTest;
-
-use Sanity\BlockContent;
+namespace Sanity;
 
 class BlockContentMigrationTest extends TestCase
 {
-    public function __construct() {
+    protected function setUp(): void {
         BlockContent::$useStaticKeys = true;
     }
 

@@ -9,3 +9,4 @@ package.json
 *.sublime-workspace
 clover.xml
 /coverage
+.phpunit.result.cache

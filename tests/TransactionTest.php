@@ -1,9 +1,10 @@
 <?php
-namespace SanityTest;
+namespace Sanity;
 
-use Sanity\Patch;
-use Sanity\Selection;
-use Sanity\Transaction;
+use Sanity\Exception\{
+    ConfigException,
+    InvalidArgumentException,
+};
 
 class TransactionTest extends TestCase
 {
@@ -24,14 +25,12 @@ class TransactionTest extends TestCase
         $this->assertEquals(['create' => ['_type' => 'post', 'title' => 'Foo']], $transaction->serialize());
     }
 
-    /**
-     * @expectedException Sanity\Exception\ConfigException
-     * @expectedExceptionMessage `mutate()` method
-     */
     public function testThrowsWhenCallingCommitWithoutClientContext()
     {
         $transaction = new Transaction();
         $transaction->create(['_type' => 'post']);
+        $this->expectException(ConfigException::class);
+        $this->expectExceptionMessageMatches('/^No "client" passed to transaction/');
         $transaction->commit();
     }
 
@@ -88,13 +87,11 @@ class TransactionTest extends TestCase
         $this->assertEquals(['patch' => ['id' => 'abc123', 'dec' => ['count' => 1]]], $transaction->serialize()[0]);
     }
 
-    /**
-     * @expectedException Sanity\Exception\InvalidArgumentException
-     * @expectedExceptionMessage instantiated patch or an array
-     */
     public function testThrowsWhenCallingPatchWithInvalidArgs()
     {
         $transaction = new Transaction();
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/^`patch` requires either an instantiated patch/');
         $this->assertSame($transaction, $transaction->patch('abc123'));
     }
 
