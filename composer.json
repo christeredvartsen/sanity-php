@@ -3,7 +3,7 @@
     "description": "PHP library for the Sanity API",
     "type": "library",
     "scripts": {
-        "cs": "vendor/bin/phpcs lib",
+        "cs": "vendor/bin/phpcs src",
         "phpunit": "vendor/bin/phpunit",
         "test": [
             "@phpunit",
@@ -20,8 +20,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Sanity\\" : "lib/",
-            "SanityTest\\": "test/"
+            "Sanity\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SanityTest\\": "tests/"
         }
     },
     "license": "MIT",
