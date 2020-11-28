@@ -17,39 +17,29 @@ use Sanity\Exception\{
 class ClientTest extends TestCase
 {
     private $client;
-    private $errors;
     private $history;
 
-    protected function setUp(): void
-    {
-        $this->client = null;
-        $this->errors = [];
-        set_error_handler(array($this, 'errorHandler'));
-    }
-
-    public function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
-    {
-        $this->errors[] = compact('errno', 'errstr', 'errfile', 'errline', 'errcontext');
-    }
-
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testCanConstructNewClient()
     {
-        $this->client = new Client([
+        new Client([
             'projectId' => 'abc',
             'dataset' => 'production',
             'apiVersion' => '2019-01-01',
         ]);
-        $this->assertInstanceOf(Client::class, $this->client);
     }
 
     public function testWarnsOnNoApiVersionSpecified()
     {
-        $this->client = new Client([
+        $this->expectDeprecation();
+        $this->expectDeprecationMessage('Using the Sanity client without specifying an API version is deprecated');
+
+        new Client([
             'projectId' => 'abc',
             'dataset' => 'production',
         ]);
-        $this->assertInstanceOf(Client::class, $this->client);
-        $this->assertErrorTriggered(Client::NO_API_VERSION_WARNING, E_USER_DEPRECATED);
     }
 
     public function testWarnsOnServerWarnings()
@@ -59,11 +49,11 @@ class ClientTest extends TestCase
             'dataset' => 'production',
             'apiVersion' => '1',
         ]);
-
-        $this->assertInstanceOf(Client::class, $this->client);
         $this->mockResponses([$this->mockJsonResponseBody(['result' => []], 200, ['X-Sanity-Warning' => 'Some error'])]);
+
+        $this->expectWarning();
+        $this->expectWarningMessage('Some error');
         $this->client->request(['url' => '/projects']);
-        $this->assertErrorTriggered('Some error', E_USER_WARNING);
     }
 
     public function testThrowsOnInvalidDate()
@@ -93,7 +83,7 @@ class ClientTest extends TestCase
      */
     public function testDoesNotThrowOnExperimentalApiVersion()
     {
-        $this->client = new Client([
+        new Client([
             'projectId' => 'abc',
             'dataset' => 'production',
             'apiVersion' => 'X',
@@ -105,7 +95,7 @@ class ClientTest extends TestCase
      */
     public function testDoesNotThrowOnApiVersionOne()
     {
-        $this->client = new Client([
+        new Client([
             'projectId' => 'abc',
             'dataset' => 'production',
             'apiVersion' => '1',
@@ -697,29 +687,5 @@ class ClientTest extends TestCase
     private function assertPreviousRequest($expected)
     {
         $this->assertRequest($expected, $this->history[0]);
-    }
-
-    private function assertErrorTriggered($errstr, $errno)
-    {
-        foreach ($this->errors as $error) {
-            if ($error['errstr'] === $errstr && $error['errno'] === $errno) {
-                return;
-            }
-        }
-
-        $numErrors = count($this->errors);
-        $singleError = count($this->errors) > 0 ? $this->errors[0] : false;
-        $errorMessage = 'Error with level ' . $errno . ' and message "' . $errstr . '" not triggered. ';
-        if ($numErrors === 0) {
-            $errorMessage .= 'No errors triggered.';
-        } else if ($numErrors === 1) {
-            $err = $this->errors[0];
-            $errorMessage .= 'Error triggered: "' . $err['errstr'] . '" (level ' . $err['errno'] . ')';
-        } else {
-            $errorMessage .= $numErrors . ' errors triggered that did not match expectation';
-        }
-
-
-        $this->fail($errorMessage);
     }
 }
