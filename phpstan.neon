@@ -1,7 +1,7 @@
 parameters:
   level: max
   paths:
-    - tests/BlockContent/Serializers
+    - tests/BlockContent
   ignoreErrors:
-    - message: '#Parameter \#1 \$item of callable Sanity\\BlockContent\\Serializers\\DefaultImage expects#'
+    - message: '#Parameter \#1 \$block of callable Sanity\\BlockContent\\Serializers\\DefaultImage expects#'
       path: tests/BlockContent/Serializers/DefaultImageTest.php

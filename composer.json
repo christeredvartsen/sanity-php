@@ -3,12 +3,16 @@
     "description": "PHP library for the Sanity API",
     "type": "library",
     "scripts": {
-        "test": "vendor/bin/phpunit",
+        "phpunit": "vendor/bin/phpunit",
         "phpstan": "vendor/bin/phpstan analyse",
         "psalm": "vendor/bin/psalm --no-cache",
         "sa": [
             "@phpstan",
             "@psalm"
+        ],
+        "test": [
+            "@phpunit",
+            "@sa"
         ]
     },
     "require": {
