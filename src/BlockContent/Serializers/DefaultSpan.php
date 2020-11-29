@@ -3,37 +3,37 @@ namespace Sanity\BlockContent\Serializers;
 
 use Sanity\BlockContent\HtmlBuilder;
 
-class DefaultSpan
+class DefaultSpan implements Serializer
 {
     /**
-     * @param array{mark?:string|array{_type:string},children:array<string>} $span
+     * @param array{mark?:string|array{_type:string},children:array<string>} $block
      * @param mixed $parent
-     * @param HtmlBuilder $htmlBuilder
+     * @param HtmlBuilder $builder
      * @return string
      */
-    public function __invoke(array $span, $parent, HtmlBuilder $htmlBuilder): string
+    public function __invoke(array $block, $parent, HtmlBuilder $builder): string
     {
         $head = '';
         $tail = '';
-        $mark = isset($span['mark'])
-            ? $htmlBuilder->getMarkSerializer($span['mark'])
+        $mark = isset($block['mark'])
+            ? $builder->getMarkSerializer($block['mark'])
             : null;
 
         if ($mark && is_string($mark)) {
             $head .= '<' . $mark . '>';
             $tail .= '</' . $mark . '>';
         } elseif ($mark && is_callable($mark)) {
-            return $mark($span['mark'], $span['children']);
+            return $mark($block['mark'], $block['children']);
         } elseif ($mark && is_array($mark)) {
             $head .= is_callable($mark['head'])
-                ? $mark['head']($span['mark'])
+                ? $mark['head']($block['mark'])
                 : $mark['head'];
 
             $tail .= is_callable($mark['tail'])
-                ? $mark['tail']($span['mark'])
+                ? $mark['tail']($block['mark'])
                 : $mark['tail'];
         }
 
-        return $head . implode('', $span['children']) . $tail;
+        return $head . implode('', $block['children']) . $tail;
     }
 }

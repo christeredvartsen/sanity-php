@@ -4,33 +4,33 @@ namespace Sanity\BlockContent\Serializers;
 use Sanity\BlockContent\HtmlBuilder;
 use Sanity\Exception\ConfigException;
 
-class DefaultImage
+class DefaultImage implements Serializer
 {
     private string $baseUri = 'https://cdn.sanity.io/';
 
     /**
-     * @param array{attributes:array{asset?:array{url?:string,_ref?:string}}} $item
+     * @param array{attributes:array{asset?:array{url?:string,_ref?:string}}} $block
      * @param mixed $parent
-     * @param HtmlBuilder $htmlBuilder
+     * @param HtmlBuilder $builder
      * @return string
      */
-    public function __invoke(array $item, $parent, HtmlBuilder $htmlBuilder): string
+    public function __invoke(array $block, $parent, HtmlBuilder $builder): string
     {
-        $url = $this->getImageUrl($item, $htmlBuilder);
+        $url = $this->getImageUrl($block, $builder);
         return '<figure><img src="' . $url . '" /></figure>';
     }
 
     /**
-     * @param array{attributes:array{asset?:array{url?:string,_ref?:string}}} $item
-     * @param HtmlBuilder $htmlBuilder
+     * @param array{attributes:array{asset?:array{url?:string,_ref?:string}}} $block
+     * @param HtmlBuilder $builder
      * @throws ConfigException
      * @return string
      */
-    protected function getImageUrl(array $item, HtmlBuilder $htmlBuilder): string
+    protected function getImageUrl(array $block, HtmlBuilder $builder): string
     {
-        $projectId = $htmlBuilder->getProjectId();
-        $dataset = $htmlBuilder->getDataset();
-        $imageOptions = $htmlBuilder->getImageOptions();
+        $projectId = $builder->getProjectId();
+        $dataset = $builder->getDataset();
+        $imageOptions = $builder->getImageOptions();
 
         if (null === $projectId || null === $dataset) {
             throw new ConfigException(
@@ -39,7 +39,7 @@ class DefaultImage
             );
         }
 
-        $node = $item['attributes'];
+        $node = $block['attributes'];
         $asset = $node['asset'] ?? null;
 
         if (!is_array($asset)) {

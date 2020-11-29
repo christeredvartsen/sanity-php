@@ -2,6 +2,7 @@
 namespace Sanity\BlockContent\Serializers;
 
 use PHPUnit\Framework\TestCase;
+use Sanity\BlockContent\HtmlBuilder;
 
 /**
  * @coversDefaultClass Sanity\BlockContent\Serializers\DefaultList
@@ -46,6 +47,6 @@ class DefaultListTest extends TestCase
      */
     public function testCanSerializeDefaultLists(string $expectedOutput, array $list): void
     {
-        $this->assertSame($expectedOutput, (new DefaultList())($list));
+        $this->assertSame($expectedOutput, (new DefaultList())($list, null, $this->createMock(HtmlBuilder::class)));
     }
 }

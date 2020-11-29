@@ -2,6 +2,7 @@
 namespace Sanity\BlockContent\Serializers;
 
 use PHPUnit\Framework\TestCase;
+use Sanity\BlockContent\HtmlBuilder;
 
 /**
  * @coversDefaultClass Sanity\BlockContent\Serializers\DefaultBlock
@@ -42,7 +43,7 @@ class DefaultBlockTest extends TestCase
         $serializer = new DefaultBlock();
         $this->assertSame(
             $expectedOutput,
-            $serializer($block),
+            $serializer($block, null, $this->createMock(HtmlBuilder::class)),
         );
     }
 }

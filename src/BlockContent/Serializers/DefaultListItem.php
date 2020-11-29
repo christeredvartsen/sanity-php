@@ -1,13 +1,17 @@
 <?php declare(strict_types=1);
 namespace Sanity\BlockContent\Serializers;
 
-class DefaultListItem
+use Sanity\BlockContent\HtmlBuilder;
+
+class DefaultListItem implements Serializer
 {
     /**
-     * @param array{children:array<string>} $item
+     * @param array{children:array<string>} $block
+     * @param mixed $parent
+     * @param HtmlBuilder $builder
      */
-    public function __invoke($item): string
+    public function __invoke(array $block, $parent, HtmlBuilder $builder): string
     {
-        return '<li>' . implode('', $item['children']) . '</li>';
+        return '<li>' . implode('', $block['children']) . '</li>';
     }
 }

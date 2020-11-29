@@ -1,15 +1,19 @@
 <?php declare(strict_types=1);
 namespace Sanity\BlockContent\Serializers;
 
-class DefaultList
+use Sanity\BlockContent\HtmlBuilder;
+
+class DefaultList implements Serializer
 {
     /**
-     * @param array{itemStyle?:string,children:array<string>} $list
+     * @param array{itemStyle?:string,children:array<string>} $block
+     * @param mixed $parent
+     * @param HtmlBuilder $builder
      */
-    public function __invoke(array $list): string
+    public function __invoke(array $block, $parent, HtmlBuilder $builder): string
     {
-        $style = isset($list['itemStyle']) ? $list['itemStyle'] : 'default';
+        $style = isset($block['itemStyle']) ? $block['itemStyle'] : 'default';
         $tagName = $style === 'number' ? 'ol' : 'ul';
-        return '<' . $tagName . '>' . implode('', $list['children']) . '</' . $tagName . '>';
+        return '<' . $tagName . '>' . implode('', $block['children']) . '</' . $tagName . '>';
     }
 }
