@@ -27,6 +27,10 @@ return (new PhpCsFixer\Config('Sanity'))
             'syntax' => 'short',
         ],
         'compact_nullable_typehint' => true,
+        'no_spaces_around_offset' => [
+            'inside',
+            'outside',
+        ],
     ])
     ->setFinder((new Symfony\Component\Finder\Finder())
         ->files()
