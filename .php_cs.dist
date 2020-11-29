@@ -21,6 +21,7 @@ return (new PhpCsFixer\Config('Sanity'))
             'import_functions' => true,
         ],
         'declare_strict_types' => true,
+        'trailing_comma_in_multiline_array' => true,
     ])
     ->setFinder((new Symfony\Component\Finder\Finder())
         ->files()

@@ -119,9 +119,9 @@ class HtmlBuilder
                     'head' => function ($mark) {
                         return '<a href="' . $mark['href'] . '">';
                     },
-                    'tail' => '</a>'
-                ]
-            ]
+                    'tail' => '</a>',
+                ],
+            ],
         ];
     }
 }

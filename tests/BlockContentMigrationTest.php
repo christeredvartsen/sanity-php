@@ -20,29 +20,29 @@ class BlockContentMigrationTest extends TestCase
                 [
                     '_type' => 'span',
                     'text' => 'Normal',
-                    'marks' => []
+                    'marks' => [],
                 ],
                 [
                     '_type' => 'span',
                     'text' => 'only-bold',
-                    'marks' => ['strong']
+                    'marks' => ['strong'],
                 ],
                 [
                     '_type' => 'span',
                     'text' => 'bold-and-underline',
-                    'marks' => ['strong', 'underline']
+                    'marks' => ['strong', 'underline'],
                 ],
                 [
                     '_type' => 'span',
                     'text' => 'only-underline',
-                    'marks' => ['underline']
+                    'marks' => ['underline'],
                 ],
                 [
                     '_type' => 'span',
                     'text' => 'normal',
-                    'marks' => []
+                    'marks' => [],
                 ],
-            ]
+            ],
         ];
 
         $actual = BlockContent::migrateBlock($input);
@@ -60,26 +60,26 @@ class BlockContentMigrationTest extends TestCase
                 [
                     '_key' => '6721bbe',
                     '_type' => 'link',
-                    'href' => 'http://icanhas.cheezburger.com/'
-                ]
+                    'href' => 'http://icanhas.cheezburger.com/',
+                ],
             ],
             'children' => [
                 [
                     '_type' => 'span',
                     'text' => 'String before link ',
-                    'marks' => []
+                    'marks' => [],
                 ],
                 [
                     '_type' => 'span',
                     'text' => 'actual link text',
-                    'marks' => ['6721bbe']
+                    'marks' => ['6721bbe'],
                 ],
                 [
                     '_type' => 'span',
                     'text' => ' the rest',
-                    'marks' => []
+                    'marks' => [],
                 ],
-            ]
+            ],
         ];
 
         $actual = BlockContent::migrateBlock($input);
@@ -97,31 +97,31 @@ class BlockContentMigrationTest extends TestCase
                 [
                     '_key' => '6721bbe',
                     '_type' => 'link',
-                    'href' => 'http://icanhas.cheezburger.com/'
+                    'href' => 'http://icanhas.cheezburger.com/',
                 ],
                 [
                     '_key' => 'a0cc21d',
                     '_type' => 'author',
-                    'name' => 'Test Testesen'
-                ]
+                    'name' => 'Test Testesen',
+                ],
             ],
             'children' => [
                 [
                     '_type' => 'span',
                     'text' => 'String before link ',
-                    'marks' => []
+                    'marks' => [],
                 ],
                 [
                     '_type' => 'span',
                     'text' => 'actual link text',
-                    'marks' => ['6721bbe', 'a0cc21d']
+                    'marks' => ['6721bbe', 'a0cc21d'],
                 ],
                 [
                     '_type' => 'span',
                     'text' => ' the rest',
-                    'marks' => []
+                    'marks' => [],
                 ],
-            ]
+            ],
         ];
 
         $actual = BlockContent::migrate($input);

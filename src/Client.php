@@ -62,7 +62,7 @@ class Client
         $body = $this->request([
             'url' => '/data/query/' . $this->clientConfig['dataset'],
             'query' => $queryParams,
-            'cdnAllowed' => true
+            'cdnAllowed' => true,
         ]);
 
         return $unfilteredResponse ? $body :  $body['result'];
@@ -78,7 +78,7 @@ class Client
     {
         $body = $this->request([
             'url' => '/data/doc/' . $this->clientConfig['dataset'] . '/' . $id,
-            'cdnAllowed' => true
+            'cdnAllowed' => true,
         ]);
         return $body['documents'][0];
     }

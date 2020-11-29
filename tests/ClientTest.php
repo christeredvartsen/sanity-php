@@ -274,7 +274,7 @@ class ClientTest extends TestCase
 
         $this->assertEquals($expected, $this->client->fetch($query));
         $this->assertPreviousRequest([
-            'url' => 'https://abc.apicdn.sanity.io/v2019-01-01/data/query/production?query=%2A%5Bseats%20%3E%3D%202%5D'
+            'url' => 'https://abc.apicdn.sanity.io/v2019-01-01/data/query/production?query=%2A%5Bseats%20%3E%3D%202%5D',
         ]);
     }
 
@@ -282,7 +282,7 @@ class ClientTest extends TestCase
     {
         $mockBody = ['error' => [
             'description' => 'Param $minSeats referenced, but not provided',
-            'type' => 'queryParseError'
+            'type' => 'queryParseError',
         ]];
         $this->mockResponses([$this->mockJsonResponseBody($mockBody, 400)]);
         $this->expectException(ClientException::class);
@@ -301,7 +301,7 @@ class ClientTest extends TestCase
         $this->assertPreviousRequest([
             'url' => 'https://abc.api.sanity.io/v2019-01-01/data/mutate/production?returnIds=true&returnDocuments=true',
             'headers' => ['Authorization' => 'Bearer muchsecure'],
-            'requestBody' => json_encode(['mutations' => [['create' => $document]]])
+            'requestBody' => json_encode(['mutations' => [['create' => $document]]]),
         ]);
     }
 
@@ -315,7 +315,7 @@ class ClientTest extends TestCase
         $this->assertEquals($result, $this->client->create($document));
         $this->assertPreviousRequest([
             'url' => 'https://abc.api.sanity.io/v2019-01-01/data/mutate/production?returnIds=true&returnDocuments=true',
-            'requestBody' => json_encode(['mutations' => [['create' => $document]]])
+            'requestBody' => json_encode(['mutations' => [['create' => $document]]]),
         ]);
     }
 
@@ -340,13 +340,13 @@ class ClientTest extends TestCase
         $this->mockResponses([$this->mockJsonResponseBody($mockBody)]);
 
         $this->assertEquals($mockBody, $this->client->mutate($mutations, [
-            'returnFirst' => true
+            'returnFirst' => true,
         ]));
 
         $this->assertPreviousRequest([
             'url' => 'https://abc.api.sanity.io/v2019-01-01/data/mutate/production?returnIds=true&returnDocuments=true',
             'headers' => ['Authorization' => 'Bearer muchsecure'],
-            'requestBody' => json_encode(['mutations' => $mutations])
+            'requestBody' => json_encode(['mutations' => $mutations]),
         ]);
     }
 
@@ -361,7 +361,7 @@ class ClientTest extends TestCase
 
         $this->assertPreviousRequest([
             'url' => 'https://abc.api.sanity.io/v2019-01-01/data/mutate/production?returnIds=true&returnDocuments=true',
-            'requestBody' => json_encode(['mutations' => [['patch' => $patch->serialize()]]])
+            'requestBody' => json_encode(['mutations' => [['patch' => $patch->serialize()]]]),
         ]);
     }
 
@@ -376,7 +376,7 @@ class ClientTest extends TestCase
 
         $this->assertPreviousRequest([
             'url' => 'https://abc.api.sanity.io/v2019-01-01/data/mutate/production?returnIds=true&returnDocuments=true',
-            'requestBody' => json_encode(['mutations' => $transaction->serialize()])
+            'requestBody' => json_encode(['mutations' => $transaction->serialize()]),
         ]);
     }
 
@@ -391,7 +391,7 @@ class ClientTest extends TestCase
         $this->assertPreviousRequest([
             'url' => 'https://abc.api.sanity.io/v2019-01-01/data/mutate/production?returnIds=true&returnDocuments=true&visibility=async',
             'headers' => ['Authorization' => 'Bearer muchsecure'],
-            'requestBody' => json_encode(['mutations' => [['create' => $document]]])
+            'requestBody' => json_encode(['mutations' => [['create' => $document]]]),
         ]);
     }
 
@@ -405,7 +405,7 @@ class ClientTest extends TestCase
         $this->assertPreviousRequest([
             'url' => 'https://abc.api.sanity.io/v2019-01-01/data/mutate/production?returnIds=true&returnDocuments=true',
             'headers' => ['Authorization' => 'Bearer muchsecure'],
-            'requestBody' => json_encode(['mutations' => [['createIfNotExists' => $document]]])
+            'requestBody' => json_encode(['mutations' => [['createIfNotExists' => $document]]]),
         ]);
     }
 
@@ -427,7 +427,7 @@ class ClientTest extends TestCase
         $this->assertPreviousRequest([
             'url' => 'https://abc.api.sanity.io/v2019-01-01/data/mutate/production?returnIds=true&returnDocuments=true',
             'headers' => ['Authorization' => 'Bearer muchsecure'],
-            'requestBody' => json_encode(['mutations' => [['createOrReplace' => $document]]])
+            'requestBody' => json_encode(['mutations' => [['createOrReplace' => $document]]]),
         ]);
     }
 
@@ -477,8 +477,8 @@ class ClientTest extends TestCase
             'requestBody' => json_encode(['mutations' => [['patch' => [
                 'id' => 'someDocId',
                 'inc' => ['seats' => 1],
-                'setIfMissing' => ['seats' => 1]
-            ]]]])
+                'setIfMissing' => ['seats' => 1],
+            ]]]]),
         ]);
     }
 
@@ -517,8 +517,8 @@ class ClientTest extends TestCase
             'url' => 'https://abc.api.sanity.io/v2019-01-01/data/mutate/production?returnIds=true',
             'headers' => ['Authorization' => 'Bearer muchsecure'],
             'requestBody' => json_encode(['mutations' => [['create' => [
-                '_type' => 'bike'
-            ]]]])
+                '_type' => 'bike',
+            ]]]]),
         ]);
     }
 
@@ -526,12 +526,12 @@ class ClientTest extends TestCase
     {
         $results = [
             ['id' => '123', 'document' => ['_id' => '123', '_type' => 'bike', 'title' => 'Tandem']],
-            ['id' => '456', 'document' => ['_id' => '456', '_type' => 'bike', 'title' => 'City Bike']]
+            ['id' => '456', 'document' => ['_id' => '456', '_type' => 'bike', 'title' => 'City Bike']],
         ];
         $mockBody = ['transactionId' => 'moo', 'results' => $results];
         $mutations = [
             ['create' => ['_type' => 'bike', 'title' => 'Tandem']],
-            ['create' => ['_type' => 'bike', 'title' => 'City Bike']]
+            ['create' => ['_type' => 'bike', 'title' => 'City Bike']],
         ];
 
         $this->mockResponses([$this->mockJsonResponseBody($mockBody)]);
@@ -544,7 +544,7 @@ class ClientTest extends TestCase
         $this->assertPreviousRequest([
             'url' => 'https://abc.api.sanity.io/v2019-01-01/data/mutate/production?returnIds=true&returnDocuments=true',
             'headers' => ['Authorization' => 'Bearer muchsecure'],
-            'requestBody' => json_encode(['mutations' => $mutations])
+            'requestBody' => json_encode(['mutations' => $mutations]),
         ]);
     }
 
@@ -558,7 +558,7 @@ class ClientTest extends TestCase
         $this->assertPreviousRequest([
             'url' => 'https://abc.api.sanity.io/v2019-01-01/data/mutate/production?returnIds=true',
             'headers' => ['Authorization' => 'Bearer muchsecure'],
-            'requestBody' => json_encode(['mutations' => [['delete' => ['id' => 'foobar']]]])
+            'requestBody' => json_encode(['mutations' => [['delete' => ['id' => 'foobar']]]]),
         ]);
     }
 

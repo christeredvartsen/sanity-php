@@ -16,7 +16,7 @@ class BlockContentTreeTest extends TestCase
             'style' => 'normal',
             'content' => [
                 'Normal string of text.',
-            ]
+            ],
         ];
 
         $actual = BlockContent::ToTree($input);
@@ -35,11 +35,11 @@ class BlockContentTreeTest extends TestCase
                     'type' => 'span',
                     'mark' => 'em',
                     'content' => [
-                        'italicized'
-                    ]
+                        'italicized',
+                    ],
                 ],
-                ' word.'
-            ]
+                ' word.',
+            ],
         ];
         $actual = BlockContent::ToTree($input);
         $this->assertEquals($expected, $actual);
@@ -57,11 +57,11 @@ class BlockContentTreeTest extends TestCase
                     'type' => 'span',
                     'mark' => 'underline',
                     'content' => [
-                        'underlined'
-                    ]
+                        'underlined',
+                    ],
                 ],
-                ' word.'
-            ]
+                ' word.',
+            ],
         ];
         $actual = BlockContent::ToTree($input);
         $this->assertEquals($expected, $actual);
@@ -84,20 +84,20 @@ class BlockContentTreeTest extends TestCase
                             'type' => 'span',
                             'mark' => 'underline',
                             'content' => [
-                                'bold-and-underline'
-                            ]
-                        ]
-                    ]
+                                'bold-and-underline',
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'type' => 'span',
                     'mark' => 'underline',
                     'content' => [
-                        'only-underline'
-                    ]
+                        'only-underline',
+                    ],
                 ],
-                'normal'
-            ]
+                'normal',
+            ],
         ];
         $actual = BlockContent::ToTree($input);
         $this->assertEquals($expected, $actual);
@@ -126,12 +126,12 @@ class BlockContentTreeTest extends TestCase
                                     'type' => 'span',
                                     'mark' => 'em',
                                     'content' => [
-                                        'strong and underline and emphasis'
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                        'strong and underline and emphasis',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'type' => 'span',
@@ -141,13 +141,13 @@ class BlockContentTreeTest extends TestCase
                             'type' => 'span',
                             'mark' => 'underline',
                             'content' => [
-                                'underline and emphasis'
-                            ]
-                        ]
-                    ]
+                                'underline and emphasis',
+                            ],
+                        ],
+                    ],
                 ],
-                'normal again'
-            ]
+                'normal again',
+            ],
         ];
         $this->assertEquals($expected, BlockContent::ToTree($orderedInput));
         $this->assertEquals($expected, BlockContent::ToTree($reorderedInput));
@@ -166,8 +166,8 @@ class BlockContentTreeTest extends TestCase
                     'type' => 'span',
                     'mark' => 'code',
                     'content' => [
-                        'teh codez'
-                    ]
+                        'teh codez',
+                    ],
                 ],
                 ' is ',
                 [
@@ -179,22 +179,22 @@ class BlockContentTreeTest extends TestCase
                             'type' => 'span',
                             'mark' => 'underline',
                             'content' => [
-                                'fun'
-                            ]
+                                'fun',
+                            ],
                         ],
                         ' and ',
                         [
                             'type' => 'span',
                             'mark' => 'em',
                             'content' => [
-                                'games'
-                            ]
+                                'games',
+                            ],
                         ],
-                        ' until'
-                    ]
+                        ' until',
+                    ],
                 ],
-                ' someone gets p0wn3d.'
-            ]
+                ' someone gets p0wn3d.',
+            ],
         ];
         $actual = BlockContent::ToTree($input);
         $this->assertEquals($expected, $actual);
@@ -213,14 +213,14 @@ class BlockContentTreeTest extends TestCase
                     'mark' => [
                         '_type' => 'link',
                         '_key' => '6721bbe',
-                        'href' => 'http://icanhas.cheezburger.com/'
+                        'href' => 'http://icanhas.cheezburger.com/',
                     ],
                     'content' => [
-                        'actual link text'
-                    ]
+                        'actual link text',
+                    ],
                 ],
-                ' the rest'
-            ]
+                ' the rest',
+            ],
         ];
         $actual = BlockContent::ToTree($input);
         $this->assertEquals($expected, $actual);
@@ -239,7 +239,7 @@ class BlockContentTreeTest extends TestCase
                     'mark' => [
                         '_type' => 'link',
                         '_key' => '6721bbe',
-                        'href' => 'http://icanhas.cheezburger.com/'
+                        'href' => 'http://icanhas.cheezburger.com/',
                     ],
                     'content' => [
                         'internet ',
@@ -251,16 +251,16 @@ class BlockContentTreeTest extends TestCase
                                     'type' => 'span',
                                     'mark' => 'strong',
                                     'content' => [
-                                        'is very strong and emphasis'
-                                    ]
+                                        'is very strong and emphasis',
+                                    ],
                                 ],
-                                ' and just emphasis'
-                            ]
-                        ]
-                    ]
+                                ' and just emphasis',
+                            ],
+                        ],
+                    ],
                 ],
-                '.'
-            ]
+                '.',
+            ],
         ];
         $actual = BlockContent::ToTree($input);
         $this->assertEquals($expected, $actual);
@@ -279,7 +279,7 @@ class BlockContentTreeTest extends TestCase
                     'mark' => [
                         '_type' => 'link',
                         '_key' => 'zomgLink',
-                        'href' => 'http://icanhas.cheezburger.com/'
+                        'href' => 'http://icanhas.cheezburger.com/',
                     ],
                     'content' => [
                         'internet ',
@@ -291,16 +291,16 @@ class BlockContentTreeTest extends TestCase
                                     'type' => 'span',
                                     'mark' => 'strong',
                                     'content' => [
-                                        'is very strong and emphasis'
-                                    ]
+                                        'is very strong and emphasis',
+                                    ],
                                 ],
-                                ' and just emphasis'
-                            ]
-                        ]
-                    ]
+                                ' and just emphasis',
+                            ],
+                        ],
+                    ],
                 ],
-                '.'
-            ]
+                '.',
+            ],
         ];
         $actual = BlockContent::ToTree($input);
         $this->assertEquals($expected, $actual);
@@ -317,8 +317,8 @@ class BlockContentTreeTest extends TestCase
                     'type' => 'block',
                     'style' => 'normal',
                     'content' => [
-                        'One'
-                    ]
+                        'One',
+                    ],
                 ],
                 [
                     'type' => 'block',
@@ -329,20 +329,20 @@ class BlockContentTreeTest extends TestCase
                             'type' => 'span',
                             'mark' => 'strong',
                             'content' => [
-                                'bold'
-                            ]
+                                'bold',
+                            ],
                         ],
-                        ' word'
-                    ]
+                        ' word',
+                    ],
                 ],
                 [
                     'type' => 'block',
                     'style' => 'h2',
                     'content' => [
-                        'Three'
-                    ]
-                ]
-            ]
+                        'Three',
+                    ],
+                ],
+            ],
         ]];
         $actual = BlockContent::ToTree($input);
         $this->assertEquals($expected, $actual);
@@ -360,8 +360,8 @@ class BlockContentTreeTest extends TestCase
                     'type' => 'block',
                     'style' => 'normal',
                     'content' => [
-                        'I am the most'
-                    ]
+                        'I am the most',
+                    ],
                 ],
                 [
                     'type' => 'block',
@@ -372,20 +372,20 @@ class BlockContentTreeTest extends TestCase
                             'type' => 'span',
                             'mark' => 'strong',
                             'content' => [
-                                'programmer'
-                            ]
+                                'programmer',
+                            ],
                         ],
-                        'you know.'
-                    ]
+                        'you know.',
+                    ],
                 ],
                 [
                     'type' => 'block',
                     'style' => 'normal',
                     'content' => [
-                        'SAD!'
-                    ]
-                ]
-            ]
+                        'SAD!',
+                    ],
+                ],
+            ],
         ]];
         $actual = BlockContent::ToTree($input);
         $this->assertEquals($expected, $actual);
@@ -403,10 +403,10 @@ class BlockContentTreeTest extends TestCase
                         'type' => 'block',
                         'style' => 'normal',
                         'content' => [
-                            'A single bulleted item'
-                        ]
-                    ]
-                ]
+                            'A single bulleted item',
+                        ],
+                    ],
+                ],
             ],
             [
                 'type' => 'list',
@@ -416,17 +416,17 @@ class BlockContentTreeTest extends TestCase
                         'type' => 'block',
                         'style' => 'normal',
                         'content' => [
-                            'First numbered'
-                        ]
+                            'First numbered',
+                        ],
                     ],
                     [
                         'type' => 'block',
                         'style' => 'normal',
                         'content' => [
-                            'Second numbered'
-                        ]
-                    ]
-                ]
+                            'Second numbered',
+                        ],
+                    ],
+                ],
             ],
             [
                 'type' => 'list',
@@ -441,13 +441,13 @@ class BlockContentTreeTest extends TestCase
                                 'type' => 'span',
                                 'mark' => 'strong',
                                 'content' => [
-                                    'something strong'
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                    'something strong',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ];
         $actual = BlockContent::ToTree($input);
         $this->assertEquals($expected, $actual);
@@ -460,8 +460,8 @@ class BlockContentTreeTest extends TestCase
             'type' => 'block',
             'style' => 'h2',
             'content' => [
-                'Such h2 header, much amaze'
-            ]
+                'Such h2 header, much amaze',
+            ],
         ];
         $actual = BlockContent::ToTree($input);
         $this->assertEquals($expected, $actual);
@@ -474,8 +474,8 @@ class BlockContentTreeTest extends TestCase
         $expected = [
             'type' => 'author',
             'attributes' => [
-                'name' => 'Test Person'
-            ]
+                'name' => 'Test Person',
+            ],
         ];
         $actual = BlockContent::ToTree($input);
         $this->assertEquals($expected, $actual);
@@ -487,8 +487,8 @@ class BlockContentTreeTest extends TestCase
         $expected = [
             'type' => 'author',
             'attributes' => [
-                'name' => 'Test Person'
-            ]
+                'name' => 'Test Person',
+            ],
         ];
 
         $treeBuilder = new BlockContent\TreeBuilder();

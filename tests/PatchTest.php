@@ -141,8 +141,8 @@ class PatchTest extends TestCase
             'id' => 'abc123',
             'insert' => [
                 'after' => 'tags[-1]',
-                'items' => ['foo', 'bar']
-            ]
+                'items' => ['foo', 'bar'],
+            ],
         ], $patch->serialize());
     }
 
@@ -154,8 +154,8 @@ class PatchTest extends TestCase
             'id' => 'abc123',
             'insert' => [
                 'before' => 'tags[0]',
-                'items' => ['foo', 'bar']
-            ]
+                'items' => ['foo', 'bar'],
+            ],
         ], $patch->serialize());
     }
 

@@ -41,15 +41,15 @@ class BlockContentHtmlTest extends TestCase
                     'head' => function ($mark) {
                         return '<a class="foo" href="' . $mark['href'] . '">';
                     },
-                    'tail' => '</a>'
-                ]
-            ]
+                    'tail' => '</a>',
+                ],
+            ],
         ];
         $this->customHtmlBuilder = new HtmlBuilder(['serializers' => $serializers]);
         $this->htmlBuilder = new HtmlBuilder([
             'projectId' => 'abc123',
             'dataset' => 'prod',
-            'imageOptions' => ['fit' => 'crop', 'w' => 320, 'h' => 240]
+            'imageOptions' => ['fit' => 'crop', 'w' => 320, 'h' => 240],
         ]);
     }
 
@@ -154,7 +154,7 @@ class BlockContentHtmlTest extends TestCase
             'serializers' => ['image' => new MyCustomImageSerializer()],
             'projectId' => 'abc123',
             'dataset' => 'prod',
-            'imageOptions' => ['fit' => 'crop', 'w' => 320, 'h' => 240]
+            'imageOptions' => ['fit' => 'crop', 'w' => 320, 'h' => 240],
         ]);
 
         $input = BlockContent::toTree($this->loadFixture('image-with-caption.json'));
