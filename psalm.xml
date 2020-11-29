@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="1"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="tests/BlockContent/Serializers"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+        </ignoreFiles>
+    </projectFiles>
+    <issueHandlers>
+        <InvalidArgument>
+            <!-- Errors are triggered in tests when we supply invalid args on purpose to check error handlers -->
+            <errorLevel type="suppress">
+                <referencedFunction name="Sanity\BlockContent\Serializers\DefaultImage::__invoke"/>
+                <file name="tests/BlockContent/Serializers/DefaultImageTest.php"/>
+            </errorLevel>
+        </InvalidArgument>
+    </issueHandlers>
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
+</psalm>
