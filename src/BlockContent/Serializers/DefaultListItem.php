@@ -3,7 +3,10 @@ namespace Sanity\BlockContent\Serializers;
 
 class DefaultListItem
 {
-    public function __invoke($item)
+    /**
+     * @param array{children:array<string>} $item
+     */
+    public function __invoke($item): string
     {
         return '<li>' . implode('', $item['children']) . '</li>';
     }
