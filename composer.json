@@ -3,7 +3,13 @@
     "description": "PHP library for the Sanity API",
     "type": "library",
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "phpstan": "vendor/bin/phpstan analyse",
+        "psalm": "vendor/bin/psalm --no-cache",
+        "sa": [
+            "@phpstan",
+            "@psalm"
+        ]
     },
     "require": {
         "php": ">=7.4",
@@ -11,7 +17,12 @@
         "guzzlehttp/guzzle": "^7.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.4"
+        "phpstan/extension-installer": "^1.0",
+        "phpstan/phpstan": "^0.12.57",
+        "phpstan/phpstan-phpunit": "^0.12.16",
+        "phpunit/phpunit": "^9.4",
+        "psalm/plugin-phpunit": "^0.13.0",
+        "vimeo/psalm": "^4.2"
     },
     "autoload": {
         "psr-4": {
