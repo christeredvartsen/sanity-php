@@ -208,9 +208,9 @@ class Client
 
         $key = $returnFirst ? 'documentId' : 'documentIds';
         return [
-          'transactionId' => $body['transactionId'],
-          'results' => $results,
-          $key => $ids,
+            'transactionId' => $body['transactionId'],
+            'results' => $results,
+            $key => $ids,
         ];
     }
 
