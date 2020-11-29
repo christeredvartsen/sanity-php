@@ -1,18 +1,24 @@
 <?php declare(strict_types=1);
 namespace Sanity\BlockContent\TypeHandlers;
 
-class ListHandler
-{
-    public function __invoke($blocks, $treeBuilder)
-    {
-        $mapItems = function ($item) use ($treeBuilder) {
-            return $treeBuilder->typeHandlers['block']($item, $treeBuilder);
-        };
+use Sanity\BlockContent\TreeBuilder;
 
+class ListHandler implements Handler
+{
+    /**
+     * @param array $block
+     * @param TreeBuilder $builder
+     * @return array
+     */
+    public function __invoke(array $block, TreeBuilder $builder): array
+    {
         return [
             'type' => 'list',
-            'itemStyle' => isset($blocks[0]['listItem']) ? $blocks[0]['listItem'] : '',
-            'items' => array_map($mapItems, $blocks),
+            'itemStyle' => isset($block[0]['listItem']) ? $block[0]['listItem'] : '',
+            'items' => array_map(
+                fn ($item) => $builder->typeHandlers['block']($item, $builder),
+                $block,
+            ),
         ];
     }
 }

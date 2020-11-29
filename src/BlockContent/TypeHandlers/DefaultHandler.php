@@ -1,12 +1,19 @@
 <?php declare(strict_types=1);
 namespace Sanity\BlockContent\TypeHandlers;
 
-class DefaultHandler
+use Sanity\BlockContent\TreeBuilder;
+
+class DefaultHandler implements Handler
 {
-    public function __invoke($item, $treeBuilder)
+    /**
+     * @param array $block
+     * @param TreeBuilder $builder
+     * @return array
+     */
+    public function __invoke(array $block, TreeBuilder $builder): array
     {
-        $type = $item['_type'];
-        $attributes = $item;
+        $type = $block['_type'];
+        $attributes = $block;
         unset($attributes['_type']);
 
         return [

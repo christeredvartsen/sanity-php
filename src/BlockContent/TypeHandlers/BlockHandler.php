@@ -1,14 +1,21 @@
 <?php declare(strict_types=1);
 namespace Sanity\BlockContent\TypeHandlers;
 
-class BlockHandler
+use Sanity\BlockContent\TreeBuilder;
+
+class BlockHandler implements Handler
 {
-    public function __invoke($block, $treeBuilder)
+    /**
+     * @param array $block
+     * @param TreeBuilder $builder
+     * @return array
+     */
+    public function __invoke(array $block, TreeBuilder $builder): array
     {
         return [
             'type' => 'block',
             'style' => isset($block['style']) ? $block['style'] : 'normal',
-            'content' => isset($block['children']) ? $treeBuilder->parseSpans($block['children'], $block) : [],
+            'content' => isset($block['children']) ? $builder->parseSpans($block['children'], $block) : [],
         ];
     }
 }
